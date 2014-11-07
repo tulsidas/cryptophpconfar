@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>phpConfAr 2014 - criptografía para programadores</title>
+
+		<meta name="description" content="Introducción a la criptografía">
+		<meta name="author" content="AndresQ">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/night.css" id="theme">
+	</head>
+
+	<body>
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>phpConfAr 2014</h1>
+					<h2>criptografía para programadores</h2>
+					<p> Andres Quijano / <a href="http://twitter.com/quixote_arg">@quixote_arg</a> </p>
+				</section>
+
+				<section>
+					<h1>MD5 AES DES RC4 RSA XOR MAC SHA DHE DSA PKI SSL TLS</h1>
+				</section>
+
+				<section>
+					<img src="img/nocomprende.jpg" height="600" />
+				</section>
+
+				<section>
+					<h2><u>Diferenciemos</u></h2>
+					<h3 class="fragment">criptografía</h3>
+					<h3 class="fragment">steganografía</h3>
+					<h3 class="fragment">codificación</h3>
+				</section>
+
+				<section>
+					<h2>Steganografía</h2>
+					<p class="fragment">mensaje <em>oculto</em></p>
+					<p class="fragment">pero, a priori, legible (en texto plano)</p>
+					<p class="fragment"><a href="https://github.com/bramcohen/DissidentX">https://github.com/bramcohen/DissidentX</a></p>
+					<p class="fragment"><img src="img/back-from-hell.jpg" /></p>
+				</section>
+
+				<section>
+					<h2>Codificación</h2>
+					<p class="fragment">mensaje <strong>no</strong> (necesariamente) oculto</p>
+					<p class="fragment">mensaje <strong>legible</strong></p>
+					<p class="fragment">contenido (semántica) intercambiado / ininteligible</p>
+					<p class="fragment"> <img src="img/narcosvip.png" /> </p>
+				</section>
+
+				<section>
+					<h2>Principio de Kerckhoffs</h2>
+					<blockquote>
+						Un sistema criptográfico debe ser seguro incluso si el atacante conoce todos los detalles del mismo, a excepción de la clave secreta.
+					</blockquote>
+				</section>
+
+				<section>
+					<h1>Historia</h1>
+				</section>
+
+				<section>
+					<h2>Cifrado de César</h2>
+					
+					<p class="fragment">alias ROT-3</p>
+					<p class="fragment">sin clave</p>
+
+					<div class="fragment">
+						<pre> a b c d e f g h i j k l m n o p q r s t u v w x y z </pre>
+						<pre> D E F G H I J K L M N O P Q R S T U V W X Y Z A B C </pre>
+					</div>
+
+					<pre class="fragment">juan paco pedro de la mar</pre>
+					<pre class="fragment">MXDQ SDFR SHGUR GH OD PDU</pre>
+
+					<br/>
+					<p class="fragment">ROT-N para 1 ≤ n ≤ 26</p>
+				</section>
+
+				<section>
+					<h2>Sustitución monoalfabética</h2>
+					<p class="fragment">clave: permutación del alfabeto</p>
+					<p class="fragment">tamaño de la clave: 26! = 4×10<sup><small>26</small></sup></p>
+					<div class="fragment">
+						<pre> a b c d e f g h i j k l m n o p q r s t u v w x y z </pre>
+						<pre> R Q O A F C J T N E M Z U S D K V L Y X P G H W B I </pre>
+					</div>
+					<p class="fragment">más fácil: frase o palabra clave + resto del alfabeto (opcionalmente rotado)</p>
+					<br/>
+					<pre class="fragment">juan paco pedro de la mar</pre>
+					<pre class="fragment">EPRU KROD KFALD AF ZR URL</pre>
+				</section>
+
+				<section>
+					<h2><em>side attack</em></h2>
+					<p class="fragment"><span style="color: red">fuerza bruta: imposible</span> (hace 1000 años)</p>
+					<p class="fragment">~1200 &middot; frecuencias de letras (árabes)</p>
+					<p class="fragment">análisis de frecuencias del texto cifrado</p>
+					<p class="fragment"><img src="img/frecuencia.png" height="350" width="546"/></p>
+					<p class="fragment" style="color: yellow">
+						<small><em>¡ojo! &rarr; nosotros no somos como los Orozco, yo los conozco son ocho los monos</em></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>variantes monoalfabéticas</h2>
+					<p class="fragment">nulls</p>
+					<p class="fragment">más de un símbolo por letra</p>
+					<p class="fragment">símbolos especiales (borrar última letra/s)</p>
+					<p class="fragment">sustitución monoalfabética homofónica</p>
+					<p class="fragment">etc...</p>
+					<p class="fragment"><br/><em style="color: yellow">todas destruídas sistemáticamente por criptanalistas con mucho tiempo y paciencia (edad media)</em></p>
+				</section>
+
+				<section>
+					<h2>Sustitución polialfabética</h2>
+					<p class="fragment"><img src="img/vigenere.gif" height="300"/></p>
+					<pre class="fragment"><span style="color: yellow">CRIPTO</span>CRIPTOCRIPTOCRIPTOCRIPTOCRIP</pre>
+					<pre class="fragment">ayayayaycantaynollorescielitolindo</pre>
+					<pre class="fragment"><span style="color: yellow">CP</span>INTM<span style="color: yellow">CP</span>KPGH<span style="color: yellow">CP</span>VDEZQIMHVWGCQIHZKELD</pre>
+					<p class="fragment">¡chau frecuencias!</p>
+					<p class="fragment"><em>le chiffre indéchiffrable</em></p>
+				</section>
+
+				<section>
+					<h2>Sustitución polialfabética</h2>
+					<p class="fragment">~1750 <em>¡muy complicado de usar!</em></p>
+					<p class="fragment">sustitución monoalfabética (con variantes) seguía siendo lo más usado</p>
+					<p class="fragment">Charles Babbage</p>
+					<p class="fragment"><small>¡el de la máquina analítica!</small></p>
+					<p class="fragment">chau Vigènere</p>
+				</section>
+
+				<section>
+					<h2>Vigènere</h2>
+					<p class="fragment">Clave corta &rarr; se decripta fácil</p>
+					<p class="fragment">Clave larga &rarr; se decripta no tan fácil</p>
+					<p class="fragment">¿Y si la clave es más larga?</p>
+					<p class="fragment">¿Y si la clave es <strong>muy</strong> larga?</p>
+					<p class="fragment">¿Y si la clave es <span style="font-size: 68px; color: #80A0C0">tan larga como el texto</span>?</p>
+				</section>
+
+				<section>
+					<h1>one time pad</h1>
+					<img src="img/HOLY-GRAIL.png" style="background: none; border: none"/>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<img src="img/one-time-pad2.jpg" />
+					<pre class="fragment">cifrado = clave + texto (mod 26)</pre>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<p style="color: #80A0C0">texto</p>
+					<pre>elenemigoescobra</pre>
+					<p style="color: #80A0C0">pad (clave)</p>
+					<pre>UMLKLNGLEDFXYOOM</pre>
+					<p style="color: #80A0C0">cifrado</p>
+					<pre style="color: orange">YXPXPZORSHXZMPFM</pre>
+					<br/>
+					<p class="fragment">random + one time = <em>perfect secrecy</em></p>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<p>supongamos interceptamos el mensaje cifrado</p>
+					<pre style="color: orange">YXPXPZORSHXZMPFM</pre>
+					<p class="fragment">18 letras: 26<sup><small>18</small></sup> ≈ 3×10<sup><small>25</small></sup> </p>
+					<p class="fragment">pruebo todas las claves posibles</p>
+					<p class="fragment"><strong>indescifrable incluso con poder computacional ilimitado</strong></p>
+					<pre class="fragment">∀ x ∈ {a,z}<sup>n</sup> ∃ pad <em>k</em> ∈ {a,z}<sup>n</sup> / k ⊕ c = x </pre>
+					<p class="fragment">o sea: puedo descifrar <em>cualquier</em> texto</p>
+					<p class="fragment">one time pad <em>no agrega información</em> (más allá de tamaño máximo)</p>
+				</section>
+
+				<section>
+					<h2>one time pad</h2>
+					<p style="color: #80A0C0">mensaje interceptado</p>
+					<pre style="color: orange">YXPXPZORSHXZMPFM</pre>
+					<div class="fragment">
+						<p style="color: #80A0C0">clave arriesgada</p>
+						<pre>JIJBKDDFJSXSMGIQ</pre>
+					</div>
+					<div class="fragment">
+						<p style="color: #80A0C0">mensaje descifrado</p>
+						<pre>llueveporlatarde</pre>
+					</div>
+				</section>
+
+				<section>
+					<h1>FIN</h1>
+					<h3>¡Muchas gracias!</h3>
+					<br/>
+					<h2>¿ ?</h2>
+					<p> Andres Quijano / <a href="http://twitter.com/quixote_arg">@quixote_arg</a> </p>
+				</section>
+
+				<section>
+					<h1>¬FIN :(</h1>
+					<p class="fragment">aleatorio = <span style="color: red">difícil</span></p>
+					<p class="fragment">one-time = <span style="color: red">difícil</span></p>
+					<p class="fragment">distribución de claves = <span style="color: red">difícil</span></p>
+				</section>
+
+				<section>
+					<h2>Stream ciphers</h2>
+					<p>
+						Dada clave inicial corta <code>k</code>, generar <strong>keystream pseudoaleatorio</strong> (infinito) <code>ks</code>
+						y luego hacer símil one-time-pad: <code>ks ⊕ m</code>
+					</p>
+					<pre class="fragment">k = password1234</pre>
+					<pre class="fragment">ks(k) = 32672e912985ef5c598149f9c31666e1aa34cfae.....</pre>
+					<p class="fragment"><br/>como <code>ks</code> es <em>pseudoaleatorio</em>, no hay perfect secrecy</p>
+				</section>
+
+				<section>
+					<h2>Stream ciphers viejos (no usar)</h2>
+					<p>CSS (DVD) <small>crackeable en 2<sup><small>17</small></sup></small></p>
+					<p>A5/1,2 (GSM)</p>
+					<p>E0 (bluetooth)</p>
+				</section>
+
+				<section>
+					<h2>Stream ciphers actuales</h2>
+					<p>RC4</p>
+					<p>Salsa20</p>
+					<p>SOSEMANUK</p>
+					<p>eStream (familia)</p>
+				</section>
+
+				<section>
+					<h2>Block ciphers</h2>
+					<div class="fragment">
+						<p>encriptan de a bloques (tamaño fijo)</p>
+						<img src="img/blockcipherencrypt.png" />
+					</div>
+					<p class="fragment">se usan en <em>todos lados</em> (como primitiva)</p>
+					<div class="fragment">
+						<pre>E(k, m): {0,1}<sup>k</sup> × {0,1}<sup>b</sup> → {0,1}<sup>b</sup></pre>
+						<pre>D(k, c): {0,1}<sup>k</sup> × {0,1}<sup>b</sup> → {0,1}<sup>b</sup></pre>
+						<pre>∀ k: D(k, E(k, m)) = m</pre>
+					</div>
+				</section>
+
+				<section>
+					<h2>Block ciphers viejos (no usar)</h2>
+					<p>DES (Lucifer) <code>k = 56 bits</code></p>
+					<p>variantes de DES: 2DES, 3DES2, 3DES3, DESX</p>
+				</section>
+
+				<section>
+					<h2>Block ciphers actuales</h2>
+					<p>RC6, Blowfish, <span style="color: #FB930D">Rijndael (AES)</span></p>
+					<p><code>b = 128, k = 128 / 192 / 256</code></p>
+				</section>
+
+				<section>
+					<h2>AES</h2>
+					<img src="img/aes.png" />
+				</section>
+
+				<section>
+					<h2>Block ciphers</h2>
+					<p>Modus operandi</p>
+					<ul>
+						<li class="fragment">electronic codebook<code>(ECB)</code></li>
+						<li class="fragment">cipher block chaining<code>(CBC)</code></li>
+						<li class="fragment">output feedback<code>(OFB)</code></li>
+						<li class="fragment">cipher feedback<code>(CFB)</code></li>
+						<li class="fragment">counter<code>(CTR)</code></li>
+						<li class="fragment">Galois counter<code>(GCM)</code></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2><code>ECB</code></h2>
+					<img src="img/ECB.png" style="background-color: white"/>
+					<div style="color: red" class="fragment"><em>por norma general, no usar</em></div>
+				</section>
+
+				<section>
+					<h2><code>ECB</code></h2>
+					<img src="img/Tux.jpg" class="fragment" />
+					<img src="img/Tux_secure.jpg" class="fragment" />
+					<img src="img/Tux_ecb.jpg" class="fragment" />
+				</section>
+
+				<section>
+					<h2><code>CBC</code></h2>
+					<img src="img/CBC.png" style="background-color: white"/>
+				</section>
+
+				<section>
+					<h2><code>CTR</code></h2>
+					<img src="img/CTR.png" style="background-color: white"/>
+				</section>
+
+				<section>
+					<h2>distribución de claves = difícil</h2>
+				</section>
+
+				<section>
+					<h2>Diffie-Hellman (1976)</h2>
+					<p class="fragment"><em>asumamos <code>+</code> es fácil, <code>-</code> es imposible</em></p>
+					<p class="fragment"><code>n=49</code> (de público conocimiento)</p>
+					<pre class="fragment">Alicia               Eva             Beto   </pre>
+					<pre class="fragment"> s=rnd()=17                      t=rnd()=23  </pre>
+					<pre class="fragment"> n+s=66                            n+t=72 </pre>
+					<pre class="fragment">      &rarr; n+s               &larr; n+t  </pre>
+					<pre class="fragment">  k=(n+t)+s=89                 k=(n+s)+t=89  </pre>
+					<pre class="fragment">              (n+s) & (n+t)                </pre>
+					<pre class="fragment">             (n+s+t) = ???               </pre>
+					<p class="fragment">¡Victoria!<br/> Alicia y Beto comparten <code>k=89</code> y Eva no lo sabe</p>
+				</section>
+
+				<section>
+					<h2>Diffie-Hellman (1976)</h2>
+					<pre>&alpha;, p conocidos</pre>
+					<pre>Alice               Eve              Bob   </pre>
+					<pre>a ∈ {1..p-1}                    b ∈ {1..p-1} </pre>
+					<pre>A=&alpha;<sup>a</sup> mod p                      B=&alpha;<sup>b</sup> mod p</pre>
+					<pre>           A &rarr;                &larr; B              </pre>
+					<pre>k=B<sup>a</sup>=(&alpha;<sup>a</sup>)<sup>b</sup> = &alpha;<sup>ab</sup>                              </pre>
+					<pre>                               k=A<sup>b</sup>=(&alpha;<sup>b</sup>)<sup>a</sup> = &alpha;<sup>ab</sup></pre>
+					<pre>               ???               </pre>
+				</section>
+
+				<section>
+					<h2>public key criptography</h2>
+					<h3 class="fragment"><code>(
+						<span style="color: green"> k<sub>pub</sub> </span>,
+						<span style="color: red"> k<sub>pr</sub> </span>
+						)</code>
+					</h3>
+					<pre class="fragment"> D(<span style="color: red">k<sub>pr</sub></span>, E(<span style="color: green">k<sub>pub</sub></span>, m)) = m</pre>
+				</section>
+
+				<section>
+					<h2>public key criptography</h2>
+					<p class="fragment">~1000 veces más lentos que algoritmos simétricos</p>
+					<img class="fragment" src="img/pk-keys.png" />
+					<p class="fragment"><code>RSA</code> (factorización de primos)</p>
+					<p class="fragment"><code>ElGamal</code> (logaritmo discreto, curva elíptica)</p>
+					<p class="fragment"><code>¿P=NP?</code> <span class="fragment">¡computadoras quánticas!</span></p>
+				</section>
+
+				<section>
+					<h2>public key criptography</h2>
+					<p class="fragment"><br/><strong>Sistemas Híbridos</strong>: encriptación asimétrica <code>(RSA/ElGamal)</code> para intercambio de claves, simétrica <code>(AES)</code> para los mensajes</p>
+					<p class="fragment"><br/>en general: no encriptar el mensaje directamente con <code>public key</code></p>
+					<p class="fragment">¡la clave pública <em>es pública</em>! &rarr; replay attack</p>
+				</section>
+
+				<section>
+					<h2>public key criptography</h2>
+					<h3><code>(
+						<span style="color: green"> k<sub>pub</sub> </span>,
+						<span style="color: red"> k<sub>pr</sub> </span>
+						)</code>
+					</h3>
+					<pre> D(<span style="color: red">k<sub>pr</sub></span>, E(<span style="color: green">k<sub>pub</sub></span>, m)) = m</pre>
+					<p class="fragment"><br/>pero también...</p>
+					<pre class="fragment">D(<span style="color: green">k<sub>pub</sub></span>, E(<span style="color: red">k<sub>pr</sub></span>, m)) = m</pre>
+					<p class="fragment"><br/><em>firma digital</em></p>
+					<p class="fragment">en general no se firma <code>m</code> sino <code>h(m)</code></p>
+				</section>
+
+				<section>
+					<img src="img/tls.png" />
+					<p class="fragment">AES_128_GCM: AES, k=128 bits, Galois Counter Mode</p>
+					<p class="fragment">ECDHE_RSA = Elliptic Curve Diffie-Hellman Exchange, (firmado con) RSA</p>
+					<small class="fragment"><br/>ejercicio: entrar a un sitio <code>https</code>, ver la info y entenderla</small>
+				</section>
+
+				<section>
+					<h1>integridad</h1>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<p class="fragment"><code>H: {0,1}<sup>n</sup> &rarr; {0,1}<sup>m</sup><br/>n: cualquier valor, m: fijo</code></p>
+					<br/>
+					<ul>
+						<li class="fragment">Preimage resistance: hallar <code> x / h(x) = y ∀y</code></li>
+						<li class="fragment">2nd-preimage resistance: dado <code>x</code> hallar <code>y != x / h(x) = h(y)</code></li>
+						<li class="fragment">Collision resistance: hallar <code>x, y / h(x) = h(y)</code></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<br/>
+					<pre class="fragment"><code>h("")             = d41d8cd98f00b204e9800998ecf8427e</code></pre>
+					<pre class="fragment"><code>h("hola pianola") = ba5ba94503a131c30b74b38ed79f8ca7</code></pre>
+					<pre class="fragment"><code>h("hola pianol<span style="color: yellow">o</span>") = b7cddeb1e96f4849abd0c2f85be3e842</code></pre>
+				</section>
+
+				<section>
+					<h2>hashes criptográficos</h2>
+					<p class="fragment" style="color: red">MD5 (128 bits)</p>
+					<p class="fragment" style="color: orange">SHA-1 (160 bits)</p>
+					<p class="fragment" style="color: green">SHA-2 (224 / 256 / 384 / 512)</p>
+					<p class="fragment"><span style="color: green">SHA-3 (224 / 256 / 384 / 512) </span><br/><small>no confirmado aún</small></p>
+				</section>
+
+				<section>
+					<h2>Message Authentication Code (MAC)</h2>
+					<p class="fragment">hash criptográfico <em>con clave</em></p>
+					<p class="fragment">proveen <strong>integridad</strong> a un mensaje</p>
+				</section>
+
+				<section>
+					<h2>HMAC</h2>
+					<p class="fragment">basado en hashes criptográficos</p>
+					<p class="fragment">HMAC(k, m) = h(k ⊕ opad || h(k ⊕ ipad || m)</p>
+					<div class="fragment">
+						<p><small><code>opad = 0x5C5C5C5C...5C</code></small></p>
+						<p><small><code>ipad = 0x36363636...36</code></small></p>
+					</div>
+				</section>
+
+				<section>
+					<img src="img/hmac.jpg" height="650" />
+				</section>
+
+				<section>
+					<h2>Otros tipos de MAC</h2>
+					<br/>
+					<div class="fragment">
+						<p>OMAC</p>
+						<p>CBC-MAC</p>
+						<p>PMAC</p>
+						<p><br/>basados en block ciphers</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Tengo el MAC, ¿y ahora?</h2>
+					<div class="fragment">
+						<p>mac-then-encrypt</p>
+						<p>E(m || mac(m))</p>
+						<p class="fragment" style="color: orange;">puede fallar</p>
+					</div>
+					<div class="fragment">
+						<hr/>
+						<p>encrypt-then-mac</p>
+						<p>E(m) || mac(E(m))</p>
+						<p class="fragment" style="color: green;">siempre correcto</p>
+					</div>
+					<div class="fragment">
+						<hr/>
+						<p>encrypt-and-mac</p>
+						<p>E(m) || mac(m)</p>
+						<p class="fragment" style="color: red;">feo</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Caso práctico #1</h2>
+					<p>guardar passwords en la DB</p>
+					<div class="fragment">
+						<p><br/>hay que asumir el hacker (o topo) podría tener acceso a <em>TODO</em></p>
+						<p>db, código, filesystem, ...</p>
+					</div>
+				</section>
+
+				<section>
+					<h2>Caso práctico #1</h2>
+					<p>guardar passwords en la DB</p>
+					<br/>
+					<p class="fragment">
+						ROT-26
+						<span class="fragment" style="color: red;">horrible</span>
+					</p>
+					<p class="fragment">
+						encriptado con algo simétrico
+						<span class="fragment" style="color: red;">no suma si tienen el código</span>
+					</p>
+					<p class="fragment">
+						encriptado con algo asimétrico
+						<span class="fragment" style="color: red;">no suma si tienen el código</span>
+					</p>
+					<p class="fragment">
+						hash
+						<span class="fragment" style="color: red;">fácil con rainbow tables</span>
+					</p>
+					<p class="fragment">
+						hash + salt único
+						<span class="fragment" style="color: red;">fácil con CPU</span>
+					</p>
+					<p class="fragment">
+						hash + salt por registro
+						<span class="fragment" style="color: orange;">difícil, con CPU</span>
+					</p>
+					<p class="fragment">
+						multihash + salt por registro
+						<span class="fragment" style="color: green;">muy difícil</span>
+					</p>
+					<p class="fragment">
+						bcrypt, scrypt
+						<span class="fragment" style="color: green;">muy difícil</span>
+					</p>
+				</section>
+
+				<section>
+					<h2>Caso práctico #2</h2>
+					<p>Ocultar datos en una URL</p>
+					<p class="fragment"><code>www.pepe.com/view?id=<span style="color: yellow">123</span></code></p>
+					<p class="fragment"><strong style="color: red;">no reemplaza a control de accesos en el server</strong></p>
+					<p class="fragment">
+						ofuscación sencilla (ROT-13, base64, etc.)
+					</p>
+					<p class="fragment">
+						hash simple (<em>pseudo firma</em>)
+						&rarr; 
+						<code>view?id=<span style="color: yellow">123&sig=<em>h(123)</em></span></code>
+					</p>
+					<p class="fragment">
+						hash complejo (con salt)
+						&rarr;
+						<strong style="color: red">¡ojo!</strong> se expone <code>m</code> y <code>h(m)</code>
+					</p>
+					<p class="fragment">
+						algoritmo simétrico
+						&rarr;
+						<code>view?id=<span style="color: yellow"><em>E(123)</em></span></code>
+					</p>
+				</section>
+
+				<section>
+					<img src="img/etpa.jpg" />
+					<p>Si aún queda tiempo, pasa a la siguiente página</p>
+					<p>Si te quedaste sin tiempo, huye antes que te tiren tomates</p>
+					<p class="fragment">(risas)</p>
+				</section>
+
+				<section>
+					<h2>one-time passwords</h2>
+					<h4 class="fragment"><em>&quot;towards strong authentication&quot;</em></h4>
+					<p class="fragment">no confundir con <em style="color: cyan">one time pad</em></p>
+					<br/>
+					<p class="fragment">claves estáticas = replay attack</p>
+					<p class="fragment">OTP: challenge &mdash; response</p>
+					<p class="fragment">sirven para <em>una</em> sesión</p>
+					<p class="fragment">no importa si alguien me pispea la clave</p>
+					<br/>
+					<p class="fragment">server y cliente comparten una clave privada <code style="color: orange">k</code></p>
+				</section>
+
+				<section>
+					<h2>one-time passwords</h2>
+					<p class="fragment"><strong>HOPT</strong> &mdash; HMAC-based One-Time Password</p>
+					<p class="fragment"><em>counter based</em></p>
+					<p class="fragment">el challenge, groso modo: </p>
+					<p class="fragment">encriptá el contador <code style="color: orange">c</code> con la clave <code style="color: orange">k</code> y decime cuánto te dio</p>
+					<p class="fragment">si los valores coinciden, el usuario es auténtico</p>
+					<br/>
+					<p class="fragment"><code>HOTP(k,c) = truncate(HMAC(k,c)) &amp; 0x7FFFFFFF</code></p>
+				</section>
+
+				<section>
+					<h2>one-time passwords</h2>
+					<p class="fragment"><strong>TOPT</strong> &mdash; Time-based One-Time Password</p>
+					<p class="fragment"><em>time based</em></p>
+					<p class="fragment">el challenge, groso modo: </p>
+					<p class="fragment">encriptá la hora actual <code style="color: orange">t</code> con la clave <code style="color: orange">k</code> y decime cuánto te dio</p>
+					<p class="fragment">si los valores coinciden, el usuario es auténtico</p>
+					<br/>
+					<p class="fragment"><code>TOTP(k) = HOTP(k, <em>f</em>(ts))</code></p>
+					<p class="fragment">intervalos de 30 segundos, y ventanas de changüí</p>
+				</section>
+
+				<section>
+					<img src="img/securid.gif" align="center" />
+					<img src="img/googleauth.png" height="600" />
+				</section>
+
+				<section>
+					<h1>FIN</h1>
+					<small>ahora si</small>
+					<h3>¡Muchas gracias!</h3>
+					<br/>
+					<h2>¿ ?</h2>
+					<p> Andres Quijano / <a href="http://twitter.com/quixote_arg">@quixote_arg</a> </p>
+				</section>
+			</div>
+		</div>
+
+		<script src="js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: "night",
+				transition: "linear"
+			});
+		</script>
+	</body>
+</html>
